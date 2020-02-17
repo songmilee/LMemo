@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="memo_item"
+            type="mi.song.lmemo.view.MemoAdapter.MemoVH" />
+    </data>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/memo_item_padding">
+
+        <TextView
+            android:id="@+id/memo_list_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_memo_title"
+            android:textSize="@dimen/default_normal_font_size"/>
+        <TextView
+            android:id="@+id/memo_list_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/default_layout_padding"
+            android:text="@string/memo_list_date"
+            android:layout_below="@id/memo_list_title"
+            android:layout_alignParentRight="true"
+            />
+
+    </RelativeLayout>
+</layout>

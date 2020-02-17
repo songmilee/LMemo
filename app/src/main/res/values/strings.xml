@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">LMemo</string>
+    <string name="no_item_list">메모가 없습니다!\n메모를 추가해주세요.</string>
+    <string name="add_memo_title">Title</string>
+    <string name="add_memo_contents">Contents</string>
+    <string name="memo_list_date">2020/02/17</string>
+
+    <string name="memo_add_event">메모가 등록되었습니다.</string>
+</resources>
