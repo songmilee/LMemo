@@ -25,11 +25,7 @@ class MemoImageAdapter(val context: Context) : BaseAdapter() {
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        var view:View? = null
-        if(convertView == null)
-            view = LayoutInflater.from(context).inflate(R.layout.memo_img_item, null)
-        else
-            view = convertView
+        val view = LayoutInflater.from(context).inflate(R.layout.memo_img_item, null)
 
         if(imgList != null) {
             val img = view?.findViewById<ImageView>(R.id.memo_img)

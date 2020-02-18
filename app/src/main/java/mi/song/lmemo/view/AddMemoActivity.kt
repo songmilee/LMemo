@@ -70,6 +70,7 @@ class AddMemoActivity : AppCompatActivity() {
 
     //데이터 셋팅
     private fun setData(){
+        addMemoBinding.addMemoImg.visibility = View.GONE
         id?.let {identical ->
             memoVM?.getMemo(identical)?.observe(this, Observer { memo ->
                 if (memo != null) {
@@ -80,6 +81,8 @@ class AddMemoActivity : AppCompatActivity() {
                     addMemoBinding.addMemoContents.setText(originContents)
 
                     if(!memo.imgContents.isNullOrEmpty()) {
+                        addMemoBinding.addMemoImg.visibility = View.VISIBLE
+
                         val tempMemoList =
                             memo.imgContents.substring(1, memo.imgContents.length - 1).split(",")
                         Log.d("img list", "temp Memo List : $tempMemoList")
@@ -200,7 +203,9 @@ class AddMemoActivity : AppCompatActivity() {
             })
             .setPositiveButton(R.string.ok, DialogInterface.OnClickListener { dialog, which ->
                 val url = v.findViewById<EditText>(R.id.memo_img_url)
-                requestURLImg(url.text.toString())
+//                requestURLImg(url.text.toString())
+                imgList.add(url.text.toString())
+                updateImageList()
                 dialog.dismiss()
             })
             .create()
@@ -232,6 +237,7 @@ class AddMemoActivity : AppCompatActivity() {
     //grid view의 이미지 업데이트
     private fun updateImageList(){
         Log.d("img list", "list : $imgList")
+        addMemoBinding.addMemoImg.visibility = View.VISIBLE
         imgAdapter?.updateImgList(imgList)
     }
 
