@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import mi.song.lmemo.R
+import mi.song.lmemo.data.Memo
 import mi.song.lmemo.databinding.ActivityAddMemoBinding
+import mi.song.lmemo.viewmodel.MemoViewModel
 
 class AddMemoActivity : AppCompatActivity() {
-    lateinit var addMemoBinding:ActivityAddMemoBinding
+    private lateinit var addMemoBinding:ActivityAddMemoBinding
+    private var memoVM:MemoViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +21,7 @@ class AddMemoActivity : AppCompatActivity() {
     }
 
     private fun init(){
+        memoVM = MemoViewModel(application)
         setBtnEvents()
     }
 
@@ -27,7 +31,15 @@ class AddMemoActivity : AppCompatActivity() {
     }
 
     private fun addDataEvents(){
-        Toast.makeText(this, getText(R.string.memo_add_event), Toast.LENGTH_SHORT).show()
+        val titleValue = addMemoBinding.addMemoTitle.text.toString()
+        val contentsValue = addMemoBinding.addMemoContents.text.toString()
+
+        if(!titleValue.equals("") && !contentsValue.equals("")){
+            val contentsList = ArrayList<String>()
+            contentsList.add(contentsValue)
+            memoVM?.insertMemo(titleValue, contentsList)
+            Toast.makeText(this, getText(R.string.memo_add_event), Toast.LENGTH_SHORT).show()
+        }
         finish()
     }
 }

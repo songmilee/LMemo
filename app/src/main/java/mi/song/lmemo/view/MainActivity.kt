@@ -33,25 +33,27 @@ class MainActivity : AppCompatActivity() {
         mainBinding.memoList.adapter = adapter
         mainBinding.memoList.layoutManager = LinearLayoutManager(this)
 
-        memoList.add(Memo(0, "test", "2020-02-18", System.currentTimeMillis()))
-        adapter?.setMemoList(memoList)
+        //set viewModel
+        memoVM = MemoViewModel(application)
+        memoVM?.memoList?.observe(this, Observer {memo ->
+            Log.d("main", "$memo")
+            showMemoList(memo.size)
+            adapter?.setMemoList(memo!!)
+        })
 
-        if(adapter?.itemCount!! < 1){
+        //set btn event
+        mainBinding.memoAdd.setOnClickListener { addMemoActivity() }
+
+    }
+
+    private fun showMemoList(size:Int){
+        if(size < 1){
             mainBinding.memoList.visibility = View.GONE
             mainBinding.memoEmpty.visibility = View.VISIBLE
         } else {
             mainBinding.memoList.visibility = View.VISIBLE
             mainBinding.memoEmpty.visibility = View.GONE
         }
-
-        //set viewModel
-        memoVM = MemoViewModel(application)
-        memoVM?.memoList?.observe(this, Observer {memo ->
-            Log.d("main", "$memo")
-        })
-        //set btn event
-        mainBinding.memoAdd.setOnClickListener { addMemoActivity() }
-
     }
 
     //메모 추가를 위한 액티비티 호출

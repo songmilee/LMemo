@@ -9,12 +9,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import mi.song.lmemo.R
 import mi.song.lmemo.data.Memo
+import mi.song.lmemo.data.MemoList
 import mi.song.lmemo.databinding.MemoListItemBinding
+import mi.song.lmemo.util.TimeUtils
 
 class MemoAdapter(val context:Context) : RecyclerView.Adapter<MemoAdapter.MemoVH>() {
-    var memo:List<Memo>? = null
+    var memo:List<MemoList>? = null
 
-    fun setMemoList(memoList:List<Memo>){
+    fun setMemoList(memoList:List<MemoList>){
         memo = memoList
         notifyDataSetChanged()
     }
@@ -32,17 +34,15 @@ class MemoAdapter(val context:Context) : RecyclerView.Adapter<MemoAdapter.MemoVH
 
     override fun onBindViewHolder(holder: MemoVH, position: Int) {
         Log.d("main adapter", "${memo.isNullOrEmpty() }, memo size : ${memo?.size}")
-        if(memo != null) {
-            holder.bindData(memo?.get(position)!!)
-        }
+        holder.bindData(memo?.get(position)!!)
+
     }
 
     class MemoVH(itemView:View) : RecyclerView.ViewHolder(itemView) {
         val memoListItem: MemoListItemBinding? = DataBindingUtil.bind(itemView)
-        fun bindData(memo:Memo){
-            Log.d("main adapter", "memo : $memo")
+        fun bindData(memo:MemoList){
             memoListItem?.memoListTitle?.setText(memo.title)
-            memoListItem?.memoListDate?.setText(memo.contents)
+            memoListItem?.memoListDate?.setText(TimeUtils().getParsedTime(memo.created_at))
 
         }
     }

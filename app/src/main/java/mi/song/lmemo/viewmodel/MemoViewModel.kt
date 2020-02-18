@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import mi.song.lmemo.data.Memo
-import mi.song.lmemo.data.MemoList
 import mi.song.lmemo.repository.MemoRepository
 
 class MemoViewModel(app:Application) : AndroidViewModel(app){
@@ -15,8 +14,9 @@ class MemoViewModel(app:Application) : AndroidViewModel(app){
         repository.insert(memo)
     }
 
-    fun insertMemo(title:String, contents:String){
-        val memo = Memo(0, title, contents, System.currentTimeMillis())
+    fun insertMemo(title:String, contentsList:ArrayList<String>){
+        val memo = Memo(0, title, contentsList.toString(), System.currentTimeMillis())
+        insertMemo(memo)
     }
 
     fun deleteMemo(memo:Memo){
