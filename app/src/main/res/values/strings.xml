@@ -6,4 +6,5 @@
     <string name="memo_list_date">2020/02/17</string>
 
     <string name="memo_add_event">메모가 등록되었습니다.</string>
+    <string name="permission_warn">기능이 올바르게 작동하지 않을 것입니다.</string>
 </resources>

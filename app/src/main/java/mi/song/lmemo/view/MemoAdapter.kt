@@ -1,6 +1,7 @@
 package mi.song.lmemo.view
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -44,6 +45,16 @@ class MemoAdapter(val context:Context) : RecyclerView.Adapter<MemoAdapter.MemoVH
             memoListItem?.memoListTitle?.setText(memo.title)
             memoListItem?.memoListDate?.setText(TimeUtils().getParsedTime(memo.created_at))
 
+            itemView.setOnClickListener(itemClickEvent(memo.id))
+        }
+
+        //아이템 클릭 이벤트
+        fun itemClickEvent(id:Long) = object:View.OnClickListener{
+            override fun onClick(v: View?) {
+                val intent = Intent(itemView.context, AddMemoActivity::class.java)
+                intent.putExtra("id", id)
+                itemView.context.startActivity(intent)
+            }
         }
     }
 }

@@ -26,6 +26,10 @@ class MemoRepository(val context: Context) {
         dao.delete(memo)
     }
 
+    fun delete(id:Long) = IOUtils().ioThread {
+        dao.deleteMemo(id)
+    }
+
     fun update(memo:Memo) = IOUtils().ioThread {
         dao.update(memo)
     }

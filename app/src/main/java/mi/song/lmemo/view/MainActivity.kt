@@ -1,16 +1,20 @@
 package mi.song.lmemo.view
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import mi.song.lmemo.R
 import mi.song.lmemo.data.Memo
 import mi.song.lmemo.databinding.ActivityMainBinding
+import mi.song.lmemo.util.GlobalVariable
+import mi.song.lmemo.util.PermissionUtils
 import mi.song.lmemo.viewmodel.MemoViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         //data binding
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        PermissionUtils(this).checkPermission()
         init()
     }
 

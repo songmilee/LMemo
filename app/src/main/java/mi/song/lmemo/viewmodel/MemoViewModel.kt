@@ -23,6 +23,10 @@ class MemoViewModel(app:Application) : AndroidViewModel(app){
         repository.delete(memo)
     }
 
+    fun deleteMemo(id:Long){
+        repository.delete(id)
+    }
+
     fun updateMemo(memo:Memo){
         repository.update(memo)
     }
