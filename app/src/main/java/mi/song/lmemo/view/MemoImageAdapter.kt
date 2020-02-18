@@ -1,6 +1,8 @@
 package mi.song.lmemo.view
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,7 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
+import com.squareup.picasso.Picasso
 import mi.song.lmemo.R
+import java.io.BufferedInputStream
+import java.io.IOException
+import java.lang.Exception
 
 class MemoImageAdapter(val context: Context) : BaseAdapter() {
     var imgList:ArrayList<String>? = null
@@ -28,7 +34,8 @@ class MemoImageAdapter(val context: Context) : BaseAdapter() {
         if(imgList != null) {
             val img = view?.findViewById<ImageView>(R.id.memo_img)
             Log.d("memo img adapter", "${imgList!![position]}")
-            img?.setImageURI(Uri.parse(imgList!![position]))
+
+            Picasso.get().load(imgList!![position]).into(img)
         }
 
         return view!!

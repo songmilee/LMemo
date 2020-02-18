@@ -20,6 +20,7 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}"
             android:exported="false"
+            android:readPermission="true"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"

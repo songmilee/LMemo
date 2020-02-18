@@ -2,10 +2,13 @@ package mi.song.lmemo.view
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -22,8 +25,11 @@ import mi.song.lmemo.databinding.ActivityAddMemoBinding
 import mi.song.lmemo.util.FileUtils
 import mi.song.lmemo.util.GlobalVariable
 import mi.song.lmemo.viewmodel.MemoViewModel
+import org.w3c.dom.Document
 import java.io.File
+import java.io.FileNotFoundException
 import java.io.IOException
+import java.io.InputStream
 import java.lang.Exception
 import kotlin.collections.ArrayList
 
@@ -72,6 +78,17 @@ class AddMemoActivity : AppCompatActivity() {
 
                     addMemoBinding.addMemoTitle.setText(originTitle)
                     addMemoBinding.addMemoContents.setText(originContents)
+
+                    if(!memo.imgContents.isNullOrEmpty()) {
+                        val tempMemoList =
+                            memo.imgContents.substring(1, memo.imgContents.length - 1).split(",")
+                        Log.d("img list", "temp Memo List : $tempMemoList")
+                        for (i in tempMemoList)
+                            imgList.add(i)
+                        updateImageList()
+                    } else {
+                        addMemoBinding.addMemoImg.visibility = View.GONE
+                    }
                 }
             })
         }
@@ -114,7 +131,7 @@ class AddMemoActivity : AppCompatActivity() {
     private fun addData(titleValue:String, contentsValue:String){
         val contentsList = ArrayList<String>()
         contentsList.add(contentsValue)
-        memoVM?.insertMemo(titleValue, contentsList, null)
+        memoVM?.insertMemo(titleValue, contentsList, imgList)
         Toast.makeText(this, getText(R.string.memo_add_event), Toast.LENGTH_SHORT).show()
     }
 
@@ -122,7 +139,7 @@ class AddMemoActivity : AppCompatActivity() {
     private fun updateData(titleValue:String, contentsValue:String){
         val contentsList = ArrayList<String>()
         contentsList.add(contentsValue)
-        memoVM?.updateMemo(id!!, titleValue, contentsList, null)
+        memoVM?.updateMemo(id!!, titleValue, contentsList, imgList)
         Toast.makeText(this, getText(R.string.memo_update_event), Toast.LENGTH_SHORT).show()
     }
 
@@ -146,7 +163,7 @@ class AddMemoActivity : AppCompatActivity() {
         val intent = Intent()
         intent.apply {
             setType("image/*")
-            setAction(Intent.ACTION_GET_CONTENT)
+            setAction(Intent.ACTION_OPEN_DOCUMENT)
         }
 
         startActivityForResult(intent, GlobalVariable.REQ_PHOTO_CODE)
@@ -165,7 +182,6 @@ class AddMemoActivity : AppCompatActivity() {
 
                 photoFile?.also {
                     val photoURI = FileProvider.getUriForFile(this, packageName, it)
-                    Log.d("add memo uri", "$photoURI")
                     takePicture.putExtra("content_uri", photoURI)
                     startActivityForResult(takePicture, GlobalVariable.REQ_IMAGE_CAPTURE)
                 }
@@ -178,6 +194,7 @@ class AddMemoActivity : AppCompatActivity() {
         val v = layoutInflater.inflate(R.layout.url_dialog, null)
         val builder = AlertDialog.Builder(this)
             .setView(v)
+            .setTitle(R.string.enter_url)
             .setNegativeButton(R.string.cancel, DialogInterface.OnClickListener { dialog, which ->
                 dialog.dismiss()
             })
@@ -191,7 +208,6 @@ class AddMemoActivity : AppCompatActivity() {
     }
 
     private fun requestURLImg(url:String){
-        Log.d("add memo", "load url : $url")
         Picasso.get()
             .load(url)
             .placeholder(R.drawable.img_fail_24dp)
@@ -204,10 +220,8 @@ class AddMemoActivity : AppCompatActivity() {
                 }
 
                 override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                    Log.d("request url ", "on resource ready")
                     bitmap?.let {bm ->
                         val uri = FileUtils(applicationContext).saveBitmap(bm)
-                        Log.d("request url ", "get uri : $uri")
                         imgList.add(uri.toString())
                         updateImageList()
                     }
@@ -227,7 +241,9 @@ class AddMemoActivity : AppCompatActivity() {
         when(requestCode){
             GlobalVariable.REQ_PHOTO_CODE -> {
                 if(resultCode == RESULT_OK){
-                    imgList.add(data?.data.toString())
+                    val uri = data?.data!!
+
+                    imgList.add(uri.toString()!!)
                     updateImageList()
                 }
             }
@@ -240,10 +256,6 @@ class AddMemoActivity : AppCompatActivity() {
                         updateImageList()
                     }
                 }
-            }
-
-            GlobalVariable.REQ_URL_IMAGE -> {
-
             }
         }
     }
