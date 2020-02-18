@@ -2,7 +2,6 @@ package mi.song.lmemo.util
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.pm.PackageManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -15,7 +14,7 @@ class PermissionUtils(val activity:Activity) : Activity() {
     fun checkPermission(){
         for(i in permissions){
             if(ContextCompat.checkSelfPermission(activity.applicationContext, i) != PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(activity, permissions, GlobalVariable.REQ_CODE)
+                ActivityCompat.requestPermissions(activity, permissions, GlobalVariable.REQ_PERMISSION_CODE)
             }
         }
     }
@@ -28,7 +27,7 @@ class PermissionUtils(val activity:Activity) : Activity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         when(requestCode){
-            GlobalVariable.REQ_CODE -> {
+            GlobalVariable.REQ_PERMISSION_CODE -> {
                 if(grantResults.isNotEmpty()){
                     for(i in grantResults){
                         if(i != PackageManager.PERMISSION_GRANTED){

@@ -57,6 +57,23 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <GridView
+            android:id="@+id/add_memo_img"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:maxHeight="250dp"
+            android:columnWidth="100dp"
+            android:stretchMode="columnWidth"
+            android:numColumns="auto_fit"
+            android:scrollbars="horizontal"
+            android:horizontalSpacing="@dimen/default_layout_padding"
+            android:verticalSpacing="@dimen/default_layout_padding"
+            android:padding="@dimen/default_layout_padding"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/memo_toolbar"
+            app:layout_constraintBottom_toTopOf="@id/add_memo_title"/>
+
         <EditText
             android:id="@+id/add_memo_title"
             android:layout_width="match_parent"
@@ -67,7 +84,7 @@
             android:background="@color/transparent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/memo_toolbar" />
+            app:layout_constraintTop_toBottomOf="@id/add_memo_img" />
 
         <EditText
             android:id="@+id/add_memo_contents"

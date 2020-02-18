@@ -34,7 +34,6 @@ class MemoAdapter(val context:Context) : RecyclerView.Adapter<MemoAdapter.MemoVH
     }
 
     override fun onBindViewHolder(holder: MemoVH, position: Int) {
-        Log.d("main adapter", "${memo.isNullOrEmpty() }, memo size : ${memo?.size}")
         holder.bindData(memo?.get(position)!!)
 
     }

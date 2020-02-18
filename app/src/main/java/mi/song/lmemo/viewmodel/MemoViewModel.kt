@@ -14,8 +14,9 @@ class MemoViewModel(app:Application) : AndroidViewModel(app){
         repository.insert(memo)
     }
 
-    fun insertMemo(title:String, contentsList:ArrayList<String>){
-        val memo = Memo(0, title, contentsList.toString(), System.currentTimeMillis())
+    fun insertMemo(title:String, contentsList:ArrayList<String>, imgList:ArrayList<String>?){
+        val imgVal = if(imgList.isNullOrEmpty()) "" else imgList.toString()
+        val memo = Memo(0, title, contentsList.toString(), imgVal, System.currentTimeMillis())
         insertMemo(memo)
     }
 
@@ -29,6 +30,12 @@ class MemoViewModel(app:Application) : AndroidViewModel(app){
 
     fun updateMemo(memo:Memo){
         repository.update(memo)
+    }
+
+    fun updateMemo(id:Long, title:String, contentsList:ArrayList<String>, imgList:ArrayList<String>?){
+        val imgVal = if(imgList.isNullOrEmpty()) "" else imgList.toString()
+        val memo = Memo(id, title, contentsList.toString(), imgVal, System.currentTimeMillis())
+        updateMemo(memo)
     }
 
     fun getMemo(id:Long) : LiveData<Memo>{
