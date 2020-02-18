@@ -60,7 +60,7 @@
         <GridView
             android:id="@+id/add_memo_img"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="wrap_content"
             android:maxHeight="250dp"
             android:columnWidth="100dp"
             android:stretchMode="columnWidth"

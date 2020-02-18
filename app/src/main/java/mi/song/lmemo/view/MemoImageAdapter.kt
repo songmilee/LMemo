@@ -2,6 +2,7 @@ package mi.song.lmemo.view
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,7 @@ class MemoImageAdapter(val context: Context) : BaseAdapter() {
 
         if(imgList != null) {
             val img = view?.findViewById<ImageView>(R.id.memo_img)
+            Log.d("memo img adapter", "${imgList!![position]}")
             img?.setImageURI(Uri.parse(imgList!![position]))
         }
 

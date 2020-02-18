@@ -2,18 +2,21 @@ package mi.song.lmemo.view
 
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
 import mi.song.lmemo.R
 import mi.song.lmemo.databinding.ActivityAddMemoBinding
 import mi.song.lmemo.util.FileUtils
@@ -172,12 +175,49 @@ class AddMemoActivity : AppCompatActivity() {
     }
 
     private fun getImageByURL(){
+        val v = layoutInflater.inflate(R.layout.url_dialog, null)
         val builder = AlertDialog.Builder(this)
-            .setTitle("")
+            .setView(v)
+            .setNegativeButton(R.string.cancel, DialogInterface.OnClickListener { dialog, which ->
+                dialog.dismiss()
+            })
+            .setPositiveButton(R.string.ok, DialogInterface.OnClickListener { dialog, which ->
+                val url = v.findViewById<EditText>(R.id.memo_img_url)
+                requestURLImg(url.text.toString())
+                dialog.dismiss()
+            })
+            .create()
+        builder.show()
+    }
+
+    private fun requestURLImg(url:String){
+        Log.d("add memo", "load url : $url")
+        Picasso.get()
+            .load(url)
+            .placeholder(R.drawable.img_fail_24dp)
+            .into(object : Target {
+                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {              }
+
+                override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
+                    Toast.makeText(applicationContext, R.string.process_fail, Toast.LENGTH_SHORT).show()
+                    e?.printStackTrace()
+                }
+
+                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                    Log.d("request url ", "on resource ready")
+                    bitmap?.let {bm ->
+                        val uri = FileUtils(applicationContext).saveBitmap(bm)
+                        Log.d("request url ", "get uri : $uri")
+                        imgList.add(uri.toString())
+                        updateImageList()
+                    }
+                }
+            })
     }
 
     //grid view의 이미지 업데이트
     private fun updateImageList(){
+        Log.d("img list", "list : $imgList")
         imgAdapter?.updateImgList(imgList)
     }
 

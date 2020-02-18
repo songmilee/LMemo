@@ -11,4 +11,9 @@
 
     <string name="photo_dialog_title">이미지 불러오기</string>
     <string name="enter_url">URL을 입력하세요.</string>
+
+    <string name="ok">확인</string>
+    <string name="cancel">취소</string>
+
+    <string name="process_fail">Sorry, fail</string>
 </resources>
