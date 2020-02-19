@@ -2,14 +2,10 @@ package mi.song.lmemo.view
 
 import android.content.DialogInterface
 import android.content.Intent
-import android.database.Cursor
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
-import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -20,16 +16,11 @@ import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 import mi.song.lmemo.R
 import mi.song.lmemo.databinding.ActivityAddMemoBinding
 import mi.song.lmemo.util.FileUtils
 import mi.song.lmemo.util.GlobalVariable
 import mi.song.lmemo.viewmodel.MemoViewModel
-import org.w3c.dom.Document
 import java.io.*
 import java.lang.Exception
 import kotlin.collections.ArrayList
@@ -118,6 +109,7 @@ class MemoDetailActivity : AppCompatActivity() {
     private fun deleteData(){
         if(id != null) {
             memoVM?.deleteMemo(id!!)
+            Toast.makeText(this, R.string.memo_delete_event, Toast.LENGTH_SHORT).show()
         }
         finish()
     }

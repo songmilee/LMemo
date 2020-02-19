@@ -1,4 +1,5 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:locale="kr">
     <string name="app_name">LMemo</string>
     <string name="no_item_list">메모가 없습니다!\n메모를 추가해주세요.</string>
     <string name="add_memo_title">Title</string>
@@ -7,6 +8,8 @@
 
     <string name="memo_add_event">메모가 등록되었습니다.</string>
     <string name="memo_update_event">메모가 업데이트되었습니다.</string>
+    <string name="memo_delete_event">메모가 삭제되었습니다.</string>
+
     <string name="permission_warn">기능이 올바르게 작동하지 않을 것입니다.</string>
 
     <string name="photo_dialog_title">이미지 불러오기</string>
@@ -15,6 +18,6 @@
     <string name="ok">확인</string>
     <string name="cancel">취소</string>
 
-    <string name="process_fail">Sorry, fail</string>
-    <string name="wrong_url">Sorry U got the Wrong URL</string>
+    <string name="process_fail">실패하였습니다.</string>
+    <string name="wrong_url">잘못된 url을 입력하셨습니다.</string>
 </resources>

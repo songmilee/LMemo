@@ -2,7 +2,6 @@ package mi.song.lmemo.view
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
@@ -70,18 +69,7 @@ class MemoImageAdapter(val context: Context) : RecyclerView.Adapter<MemoImageAda
                     }
                 })
 
-            url?.let{
-                img.setOnClickListener(imgClickEvent(it))
-            }
-
             clear.setOnClickListener(clearClickEvent(position))
-        }
-
-        private fun imgClickEvent(url:String) = View.OnClickListener {
-            val intent = Intent(itemView.context, ZoomActivity::class.java)
-            intent.putExtra("url", url)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            itemView.context.startActivity(intent)
         }
 
         private fun clearClickEvent(position: Int) = View.OnClickListener {
