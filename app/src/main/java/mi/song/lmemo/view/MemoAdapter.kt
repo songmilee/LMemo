@@ -2,17 +2,14 @@ package mi.song.lmemo.view
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.squareup.picasso.Picasso
 import mi.song.lmemo.R
 import mi.song.lmemo.data.Memo
-import mi.song.lmemo.data.MemoList
 import mi.song.lmemo.databinding.MemoListItemBinding
 import mi.song.lmemo.util.TimeUtils
 
@@ -50,7 +47,6 @@ class MemoAdapter(val context:Context) : RecyclerView.Adapter<MemoAdapter.MemoVH
                 memoListItem?.memoListImg?.visibility = View.VISIBLE
 
                 val imgList = memo.imgContents.substring(1, memo.imgContents.length - 1).split(",")
-                Log.d("memo vh list", "img List : $imgList")
                 Glide.with(itemView).load(imgList[0])
                     .placeholder(R.drawable.img_fail_24dp)
                     .centerCrop()
@@ -64,7 +60,7 @@ class MemoAdapter(val context:Context) : RecyclerView.Adapter<MemoAdapter.MemoVH
         //아이템 클릭 이벤트
         fun itemClickEvent(id:Long) = object:View.OnClickListener{
             override fun onClick(v: View?) {
-                val intent = Intent(itemView.context, AddMemoActivity::class.java)
+                val intent = Intent(itemView.context, MemoDetailActivity::class.java)
                 intent.putExtra("id", id)
                 itemView.context.startActivity(intent)
             }

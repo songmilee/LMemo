@@ -7,13 +7,13 @@
     <data>
         <variable
             name="addmemo"
-            type="mi.song.lmemo.view.AddMemoActivity" />
+            type="mi.song.lmemo.view.MemoDetailActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.AddMemoActivity">
+        tools:context=".view.MemoDetailActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/memo_toolbar"

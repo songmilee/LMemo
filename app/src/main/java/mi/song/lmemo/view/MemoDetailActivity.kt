@@ -34,7 +34,7 @@ import java.io.*
 import java.lang.Exception
 import kotlin.collections.ArrayList
 
-class AddMemoActivity : AppCompatActivity() {
+class MemoDetailActivity : AppCompatActivity() {
     private lateinit var addMemoBinding:ActivityAddMemoBinding
     private var memoVM:MemoViewModel? = null
     private var id:Long? = null
@@ -59,6 +59,11 @@ class AddMemoActivity : AppCompatActivity() {
 
     private fun init(){
         memoVM = MemoViewModel(application)
+        memoVM?.imgListDeleteEvent?.observe(this, Observer { result ->
+            imgList = result
+            updateImageList()
+        })
+
         setBtnEvents()
         setData()
         setImageUI()
@@ -66,11 +71,10 @@ class AddMemoActivity : AppCompatActivity() {
 
     private fun setImageUI(){
         imgAdapter = MemoImageAdapter(applicationContext)
-        addMemoBinding.addMemoImg.adapter = imgAdapter
+        imgAdapter?.memoVM = memoVM
 
-        val layoutManger = GridLayoutManager(this, 3)
-        layoutManger.reverseLayout = true
-        addMemoBinding.addMemoImg.layoutManager = layoutManger
+        addMemoBinding.addMemoImg.adapter = imgAdapter
+        addMemoBinding.addMemoImg.layoutManager = GridLayoutManager(this, 3)
         imgAdapter?.updateImgList(imgList)
     }
 

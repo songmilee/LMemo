@@ -4,11 +4,13 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import mi.song.lmemo.data.Memo
+import mi.song.lmemo.event.ImgDeleteEvent
 import mi.song.lmemo.repository.MemoRepository
 
 class MemoViewModel(app:Application) : AndroidViewModel(app){
     val repository = MemoRepository(app.applicationContext)
     val memoList = repository.getMemoList()
+    val imgListDeleteEvent = ImgDeleteEvent()
 
     fun insertMemo(memo:Memo){
         repository.insert(memo)
