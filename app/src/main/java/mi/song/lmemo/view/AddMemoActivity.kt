@@ -18,6 +18,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import mi.song.lmemo.R
@@ -65,6 +68,7 @@ class AddMemoActivity : AppCompatActivity() {
     private fun setImageUI(){
         imgAdapter = MemoImageAdapter(applicationContext)
         addMemoBinding.addMemoImg.adapter = imgAdapter
+        addMemoBinding.addMemoImg.layoutManager = GridLayoutManager(this, 3)
         imgAdapter?.updateImgList(imgList)
     }
 
