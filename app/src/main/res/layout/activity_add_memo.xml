@@ -27,7 +27,7 @@
                 android:id="@+id/memo_toolbar_back"
                 android:layout_width="@dimen/img_icon_width"
                 android:layout_height="@dimen/img_icon_height"
-                android:src="@drawable/arrow_back_24dp"
+                android:src="@drawable/done_24dp"
                 android:background="@color/transparent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
