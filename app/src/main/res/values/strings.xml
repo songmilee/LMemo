@@ -1,5 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools"
-    tools:locale="kr">
+<resources>
     <string name="app_name">LMemo</string>
     <string name="no_item_list">메모가 없습니다!\n메모를 추가해주세요.</string>
     <string name="add_memo_title">Title</string>

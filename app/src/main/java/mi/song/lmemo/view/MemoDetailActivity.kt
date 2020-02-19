@@ -17,7 +17,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import mi.song.lmemo.R
-import mi.song.lmemo.databinding.ActivityAddMemoBinding
+import mi.song.lmemo.databinding.ActivityDetailMemoBinding
 import mi.song.lmemo.util.FileUtils
 import mi.song.lmemo.util.GlobalVariable
 import mi.song.lmemo.viewmodel.MemoViewModel
@@ -26,7 +26,7 @@ import java.lang.Exception
 import kotlin.collections.ArrayList
 
 class MemoDetailActivity : AppCompatActivity() {
-    private lateinit var addMemoBinding:ActivityAddMemoBinding
+    private lateinit var addMemoBinding:ActivityDetailMemoBinding
     private var memoVM:MemoViewModel? = null
     private var id:Long? = null
     private var imgList:ArrayList<String> = ArrayList<String>()
@@ -38,7 +38,7 @@ class MemoDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        addMemoBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_memo)
+        addMemoBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail_memo)
 
         //intent id 값을 받았는지 여부 확인
         intent.extras?.let {bundle->
