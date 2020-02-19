@@ -1,6 +1,7 @@
 package mi.song.lmemo.view
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
@@ -46,7 +47,7 @@ class MemoImageAdapter(val context: Context) : RecyclerView.Adapter<MemoImageAda
                 }
 
                 override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                    holder.bind(bitmap)
+                    holder.bind(bitmap, url)
                 }
             })
         }
@@ -60,11 +61,21 @@ class MemoImageAdapter(val context: Context) : RecyclerView.Adapter<MemoImageAda
     class MemoImgVH(itemView:View) : RecyclerView.ViewHolder(itemView){
         val img = itemView.findViewById<ImageView>(R.id.memo_img)
 
-        fun bind(bm:Bitmap?){
+        fun bind(bm:Bitmap?, url:String){
             if(bm == null)
                 img.setImageResource(R.drawable.img_fail_24dp)
             else
                 img.setImageBitmap(bm)
+            img.setOnClickListener(imgClickEvent(url))
+        }
+
+        fun imgClickEvent(url:String) = object :View.OnClickListener{
+            override fun onClick(v: View?) {
+                val intent = Intent(itemView.context, ZoomActivity::class.java)
+                intent.putExtra("url", url)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                itemView.context.startActivity(intent)
+            }
         }
     }
 

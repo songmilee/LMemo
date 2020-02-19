@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         //set viewModel
         memoVM = MemoViewModel(application)
         memoVM?.memoList?.observe(this, Observer {memo ->
-            Log.d("main", "$memo")
             showMemoList(memo.size)
             adapter?.setMemoList(memo!!)
         })
