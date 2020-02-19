@@ -209,8 +209,9 @@ class MemoDetailActivity : AppCompatActivity() {
         builder.show()
     }
 
+    //이미지 url 체크
     private fun checkUrl(url:String) : Boolean{
-        val regex = "(http|https)://[a-zA-Z/.0-9]+.(jpg|jpeg|gif|png|bmp)".toRegex()
+        val regex = "(http|https)://[a-zA-Z/.0-9?%+-_=\\[\\]\\(\\)]+.(jpg|jpeg|gif|png|bmp)".toRegex()
         return url.matches(regex)
     }
 
@@ -261,10 +262,5 @@ class MemoDetailActivity : AppCompatActivity() {
         } catch (e:Exception) { e.printStackTrace() }
 
         return FileProvider.getUriForFile(applicationContext, packageName, file)
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        addUpdateEvent()
     }
 }

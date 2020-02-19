@@ -46,6 +46,7 @@ class MemoAdapter(val context:Context) : RecyclerView.Adapter<MemoAdapter.MemoVH
             if(memo.imgContents.length > 0){
                 memoListItem?.memoListImg?.visibility = View.VISIBLE
 
+                //Glide를 이용해 이미지를 로드해 이미지뷰와 바인딩
                 val imgList = memo.imgContents.substring(1, memo.imgContents.length - 1).split(",")
                 Glide.with(itemView).load(imgList[0])
                     .placeholder(R.drawable.img_fail_24dp)

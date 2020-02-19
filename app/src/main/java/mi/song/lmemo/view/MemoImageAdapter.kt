@@ -39,6 +39,7 @@ class MemoImageAdapter(val context: Context) : RecyclerView.Adapter<MemoImageAda
         }
     }
 
+    //이미지 리스트 업데이트
     fun updateImgList(imgList:ArrayList<String>){
         this.imgList = imgList
         notifyDataSetChanged()
@@ -49,6 +50,7 @@ class MemoImageAdapter(val context: Context) : RecyclerView.Adapter<MemoImageAda
         val clear = itemView.findViewById<ImageView>(R.id.detail_item_clear)
 
         fun bind(url:String, position: Int){
+            //Glide library를 이용하여 이미지뷰에 이미지 바인딩
             Glide.with(img)
                 .load(url)
                 .placeholder(R.drawable.img_fail_24dp)
@@ -69,6 +71,7 @@ class MemoImageAdapter(val context: Context) : RecyclerView.Adapter<MemoImageAda
                     }
                 })
 
+            //x 버튼을 누르면 이미지 지움
             clear.setOnClickListener(clearClickEvent(position))
         }
 

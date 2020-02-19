@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import java.util.concurrent.atomic.AtomicBoolean
 
+//이미지 삭제 이벤트 클래스
+// adapter의 이미지 리스트와 activity의 이미지 리스트의 값을 맞춰줌
 class ImgDeleteEvent : MutableLiveData<ArrayList<String>>() {
     val isImageDelete = AtomicBoolean(false)
 
