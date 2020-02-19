@@ -5,30 +5,44 @@
             name="memo_item"
             type="mi.song.lmemo.view.MemoAdapter.MemoVH" />
     </data>
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/memo_list_back"
-        android:backgroundTint="@color/memoListBack"
-        android:layout_margin="@dimen/default_layout_space"
-        android:padding="@dimen/memo_item_padding">
-
-        <TextView
-            android:id="@+id/memo_list_title"
-            android:layout_width="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/add_memo_title"
-            android:textSize="@dimen/default_normal_font_size"
-            android:textStyle="bold"/>
-        <TextView
-            android:id="@+id/memo_list_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/default_layout_space"
-            android:text="@string/memo_list_date"
-            android:layout_below="@id/memo_list_title"
-            android:layout_alignParentRight="true"
-            />
+            android:background="@drawable/memo_list_back"
+            android:backgroundTint="@color/memoListBack"
+            android:layout_margin="@dimen/default_layout_space"
+            android:layout_gravity="center"
+            android:padding="@dimen/memo_item_padding">
 
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/memo_list_img"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginBottom="@dimen/default_layout_space"/>
+
+            <TextView
+                android:id="@+id/memo_list_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_memo_title"
+                android:textSize="@dimen/default_normal_font_size"
+                android:textStyle="bold"
+                android:layout_below="@id/memo_list_img"/>
+            <TextView
+                android:id="@+id/memo_list_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/default_layout_space"
+                android:text="@string/memo_list_date"
+                android:layout_below="@id/memo_list_title"
+                android:layout_alignParentRight="true"
+                />
+
+        </RelativeLayout>
+    </LinearLayout>
+
 </layout>

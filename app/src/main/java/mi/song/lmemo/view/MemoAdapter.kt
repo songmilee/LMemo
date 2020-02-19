@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.squareup.picasso.Picasso
 import mi.song.lmemo.R
 import mi.song.lmemo.data.Memo
 import mi.song.lmemo.data.MemoList
@@ -44,6 +46,18 @@ class MemoAdapter(val context:Context) : RecyclerView.Adapter<MemoAdapter.MemoVH
             memoListItem?.memoListTitle?.setText(memo.title)
             memoListItem?.memoListDate?.setText(TimeUtils().getParsedTime(memo.created_at))
 
+            if(memo.imgContents.length > 0){
+                memoListItem?.memoListImg?.visibility = View.VISIBLE
+
+                val imgList = memo.imgContents.substring(1, memo.imgContents.length - 1).split(",")
+                Log.d("memo vh list", "img List : $imgList")
+                Glide.with(itemView).load(imgList[0])
+                    .placeholder(R.drawable.img_fail_24dp)
+                    .centerCrop()
+                    .into(memoListItem?.memoListImg!!)
+            } else{
+                memoListItem?.memoListImg?.visibility = View.GONE
+            }
             itemView.setOnClickListener(itemClickEvent(memo.id))
         }
 
