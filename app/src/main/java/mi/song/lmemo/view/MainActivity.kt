@@ -33,7 +33,12 @@ class MainActivity : AppCompatActivity() {
         //set recyclerview adapter
         adapter = MemoAdapter(this)
         mainBinding.memoList.adapter = adapter
-        mainBinding.memoList.layoutManager = LinearLayoutManager(this)
+
+        //reverse layout
+        val layoutManger = LinearLayoutManager(this)
+        layoutManger.reverseLayout = true
+        layoutManger.stackFromEnd = true
+        mainBinding.memoList.layoutManager = layoutManger //LinearLayoutManager(this)
 
         //set viewModel
         memoVM = MemoViewModel(application)

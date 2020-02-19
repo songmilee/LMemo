@@ -68,7 +68,10 @@ class AddMemoActivity : AppCompatActivity() {
     private fun setImageUI(){
         imgAdapter = MemoImageAdapter(applicationContext)
         addMemoBinding.addMemoImg.adapter = imgAdapter
-        addMemoBinding.addMemoImg.layoutManager = GridLayoutManager(this, 3)
+
+        val layoutManger = GridLayoutManager(this, 3)
+        layoutManger.reverseLayout = true
+        addMemoBinding.addMemoImg.layoutManager = layoutManger
         imgAdapter?.updateImgList(imgList)
     }
 
@@ -268,5 +271,10 @@ class AddMemoActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        addUpdateEvent()
     }
 }
