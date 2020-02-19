@@ -10,7 +10,7 @@ import mi.song.lmemo.util.IOUtils
 class MemoRepository(val context: Context) {
     val dao = MemoDB.getInstance(context).MemoDao()
 
-    fun getMemoList() : LiveData<List<MemoList>>{
+    fun getMemoList() : LiveData<List<Memo>>{
         return dao.getMemoList()
     }
 

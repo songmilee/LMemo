@@ -43,7 +43,7 @@ class AddMemoActivity : AppCompatActivity() {
 
     private var originTitle:String? = null
     private var originContents:String? = null
-    private var fileName:String? = null
+    private var isImgUpdate:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +95,7 @@ class AddMemoActivity : AppCompatActivity() {
                         for (i in tempMemoList)
                             imgList.add(i)
                         updateImageList()
+                        isImgUpdate = false
                     } else {
                         addMemoBinding.addMemoImg.visibility = View.GONE
                     }
@@ -104,12 +105,7 @@ class AddMemoActivity : AppCompatActivity() {
     }
 
     private fun setBtnEvents(){
-        if(id != null)
-            addMemoBinding.memoToolbarPhoto.visibility = View.GONE
-        else{
-            addMemoBinding.memoToolbarPhoto.setOnClickListener { photoDialog() }
-        }
-
+        addMemoBinding.memoToolbarPhoto.setOnClickListener { photoDialog() }
         addMemoBinding.memoToolbarDelete.setOnClickListener { deleteData() }
         addMemoBinding.memoToolbarBack.setOnClickListener {  addUpdateEvent() }
     }
@@ -129,7 +125,7 @@ class AddMemoActivity : AppCompatActivity() {
 
         if(!titleValue.equals("") && !contentsValue.equals("") && id == null){
             addData(titleValue, contentsValue)
-        } else if((originTitle != null && !originTitle.equals(titleValue) )|| (originContents != null && !originContents.equals(contentsValue))) {
+        } else if((originTitle != null && !originTitle.equals(titleValue) )|| (originContents != null && !originContents.equals(contentsValue)) || isImgUpdate) {
             updateData(titleValue, contentsValue)
         }
 
@@ -209,6 +205,7 @@ class AddMemoActivity : AppCompatActivity() {
         Log.d("img list", "list : $imgList")
         addMemoBinding.addMemoImg.visibility = View.VISIBLE
         imgAdapter?.updateImgList(imgList)
+        isImgUpdate = true
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

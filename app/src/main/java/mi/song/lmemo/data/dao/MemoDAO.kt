@@ -16,8 +16,8 @@ interface MemoDAO {
     @Delete
     fun delete(memo:Memo)
 
-    @Query("select id, title, created_at from Memo")
-    fun getMemoList() : LiveData<List<MemoList>>
+    @Query("select * from Memo")
+    fun getMemoList() : LiveData<List<Memo>>
 
     @Query("select * from Memo where id=:id")
     fun getMemo(id:Long) : LiveData<Memo>

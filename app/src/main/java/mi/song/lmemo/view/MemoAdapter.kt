@@ -15,9 +15,9 @@ import mi.song.lmemo.databinding.MemoListItemBinding
 import mi.song.lmemo.util.TimeUtils
 
 class MemoAdapter(val context:Context) : RecyclerView.Adapter<MemoAdapter.MemoVH>() {
-    var memo:List<MemoList>? = null
+    var memo:List<Memo>? = null
 
-    fun setMemoList(memoList:List<MemoList>){
+    fun setMemoList(memoList:List<Memo>){
         memo = memoList
         notifyDataSetChanged()
     }
@@ -40,7 +40,7 @@ class MemoAdapter(val context:Context) : RecyclerView.Adapter<MemoAdapter.MemoVH
 
     class MemoVH(itemView:View) : RecyclerView.ViewHolder(itemView) {
         val memoListItem: MemoListItemBinding? = DataBindingUtil.bind(itemView)
-        fun bindData(memo:MemoList){
+        fun bindData(memo:Memo){
             memoListItem?.memoListTitle?.setText(memo.title)
             memoListItem?.memoListDate?.setText(TimeUtils().getParsedTime(memo.created_at))
 
