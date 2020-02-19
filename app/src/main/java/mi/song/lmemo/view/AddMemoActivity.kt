@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
@@ -29,10 +30,7 @@ import mi.song.lmemo.util.FileUtils
 import mi.song.lmemo.util.GlobalVariable
 import mi.song.lmemo.viewmodel.MemoViewModel
 import org.w3c.dom.Document
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.IOException
-import java.io.InputStream
+import java.io.*
 import java.lang.Exception
 import kotlin.collections.ArrayList
 
@@ -45,6 +43,7 @@ class AddMemoActivity : AppCompatActivity() {
 
     private var originTitle:String? = null
     private var originContents:String? = null
+    private var fileName:String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -182,35 +181,21 @@ class AddMemoActivity : AppCompatActivity() {
     // 카메라를 눌렀을 때 동작
     private fun getImageByCamera(){
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also {takePicture ->
-            takePicture.resolveActivity(packageManager)?.also {
-                val photoFile: File? = try {
-                    FileUtils(this).createImageFile()
-                } catch (e : IOException) {
-                    e.printStackTrace()
-                    null
-                }
-
-                photoFile?.also {
-                    val photoURI = FileProvider.getUriForFile(this, packageName, it)
-                    takePicture.putExtra("content_uri", photoURI)
-                    startActivityForResult(takePicture, GlobalVariable.REQ_IMAGE_CAPTURE)
-                }
-            }
+            startActivityForResult(takePicture, GlobalVariable.REQ_IMAGE_CAPTURE)
         }
-
     }
 
     private fun getImageByURL(){
         val v = layoutInflater.inflate(R.layout.url_dialog, null)
+        val url = v.findViewById<EditText>(R.id.memo_img_url)
         val builder = AlertDialog.Builder(this)
             .setView(v)
             .setTitle(R.string.enter_url)
             .setNegativeButton(R.string.cancel, DialogInterface.OnClickListener { dialog, which ->
+                url.text.clear()
                 dialog.dismiss()
             })
             .setPositiveButton(R.string.ok, DialogInterface.OnClickListener { dialog, which ->
-                val url = v.findViewById<EditText>(R.id.memo_img_url)
-//                requestURLImg(url.text.toString())
                 imgList.add(url.text.toString())
                 updateImageList()
                 dialog.dismiss()
@@ -219,29 +204,7 @@ class AddMemoActivity : AppCompatActivity() {
         builder.show()
     }
 
-    private fun requestURLImg(url:String){
-        Picasso.get()
-            .load(url)
-            .placeholder(R.drawable.img_fail_24dp)
-            .into(object : Target {
-                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {              }
-
-                override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
-                    Toast.makeText(applicationContext, R.string.process_fail, Toast.LENGTH_SHORT).show()
-                    e?.printStackTrace()
-                }
-
-                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                    bitmap?.let {bm ->
-                        val uri = FileUtils(applicationContext).saveBitmap(bm)
-                        imgList.add(uri.toString())
-                        updateImageList()
-                    }
-                }
-            })
-    }
-
-    //grid view의 이미지 업데이트
+    //이미지 업데이트
     private fun updateImageList(){
         Log.d("img list", "list : $imgList")
         addMemoBinding.addMemoImg.visibility = View.VISIBLE
@@ -262,15 +225,31 @@ class AddMemoActivity : AppCompatActivity() {
             }
 
             GlobalVariable.REQ_IMAGE_CAPTURE -> {
+                Log.d("camera cde", "result code : $resultCode")
                 if(resultCode == RESULT_OK){
-                    Log.d("img data", "$data")
-                    if(data?.data != null){
-                        imgList.add(data?.data.toString())
+                    data?.extras?.get("data")?.let{ bm ->
+                        val bitmap = bm as Bitmap
+                        val uri = saveCameraFile(bitmap)
+
+                        imgList.add(uri.toString())
                         updateImageList()
                     }
+
                 }
             }
         }
+    }
+
+    @Throws(IOException::class)
+    fun saveCameraFile(bitmap:Bitmap) : Uri{
+        val file = FileUtils(applicationContext).createImageFile()
+        try {
+            val outputStream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            outputStream.close()
+        } catch (e:Exception) { e.printStackTrace() }
+
+        return FileProvider.getUriForFile(applicationContext, packageName, file)
     }
 
     override fun onBackPressed() {
