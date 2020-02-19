@@ -9,9 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.target.CustomViewTarget
+import com.bumptech.glide.request.transition.Transition
 import mi.song.lmemo.R
 import mi.song.lmemo.viewmodel.MemoViewModel
 
@@ -46,33 +49,32 @@ class MemoImageAdapter(val context: Context) : RecyclerView.Adapter<MemoImageAda
         val img = itemView.findViewById<ImageView>(R.id.detail_item_img)
         val clear = itemView.findViewById<ImageView>(R.id.detail_item_clear)
 
-        fun preloadBind(preloadDrawable:Drawable){
-            img.setImageDrawable(preloadDrawable)
-        }
-
         fun bind(url:String, position: Int){
             Glide.with(img)
                 .load(url)
                 .placeholder(R.drawable.img_fail_24dp)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                .into(img)
+                .into(object: CustomViewTarget<ImageView, Drawable>(img){
+                    override fun onResourceCleared(placeholder: Drawable?) {               }
+
+                    override fun onLoadFailed(errorDrawable: Drawable?) {
+                        Toast.makeText(itemView.context, R.string.process_fail, Toast.LENGTH_SHORT).show()
+                        img.setImageDrawable(errorDrawable)
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        transition: Transition<in Drawable>?
+                    ) {
+                        img.setImageDrawable(resource)
+                    }
+                })
 
             url?.let{
                 img.setOnClickListener(imgClickEvent(it))
             }
 
             clear.setOnClickListener(clearClickEvent(position))
-        }
-
-        fun bind(bm:Bitmap?, url:String?){
-            if(bm == null)
-                img.setImageResource(R.drawable.img_fail_24dp)
-            else
-                img.setImageBitmap(bm)
-
-            url?.let {
-                img.setOnClickListener(imgClickEvent(it))
-            }
         }
 
         private fun imgClickEvent(url:String) = View.OnClickListener {

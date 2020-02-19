@@ -16,4 +16,5 @@
     <string name="cancel">취소</string>
 
     <string name="process_fail">Sorry, fail</string>
+    <string name="wrong_url">Sorry U got the Wrong URL</string>
 </resources>

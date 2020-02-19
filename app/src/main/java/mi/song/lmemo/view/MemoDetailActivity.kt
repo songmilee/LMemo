@@ -124,13 +124,20 @@ class MemoDetailActivity : AppCompatActivity() {
 
     //id 값에 따른 데이터 추가 또는 업데이트
     private fun addUpdateEvent(){
-        val titleValue = addMemoBinding.addMemoTitle.text.toString()
-        val contentsValue = addMemoBinding.addMemoContents.text.toString()
+        var titleValue = addMemoBinding.addMemoTitle.text.toString()
+        var contentsValue = addMemoBinding.addMemoContents.text.toString()
 
-        if(!titleValue.equals("") && !contentsValue.equals("") && id == null){
-            addData(titleValue, contentsValue)
-        } else if((originTitle != null && !originTitle.equals(titleValue) )|| (originContents != null && !originContents.equals(contentsValue)) || isImgUpdate) {
-            updateData(titleValue, contentsValue)
+        if(id == null){
+            if(!titleValue.equals("") && !contentsValue.equals("")){
+                addData(titleValue, contentsValue)
+            }
+        } else {
+            if ((originTitle != null && !originTitle.equals(titleValue)) || (originContents != null && !originContents.equals(
+                    contentsValue
+                )) || isImgUpdate
+            ) {
+                updateData(titleValue, contentsValue)
+            }
         }
 
         finish()
@@ -196,12 +203,23 @@ class MemoDetailActivity : AppCompatActivity() {
                 dialog.dismiss()
             })
             .setPositiveButton(R.string.ok, DialogInterface.OnClickListener { dialog, which ->
-                imgList.add(url.text.toString())
-                updateImageList()
+                val urlData = url.text.toString()
+                if(checkUrl(urlData)) {
+                    imgList.add(urlData)
+                    updateImageList()
+                } else {
+                    Toast.makeText(this, R.string.wrong_url, Toast.LENGTH_SHORT).show()
+                }
+
                 dialog.dismiss()
             })
             .create()
         builder.show()
+    }
+
+    private fun checkUrl(url:String) : Boolean{
+        val regex = "(http|https)://[a-zA-Z/.0-9]+.(jpg|jpeg|gif|png|bmp)".toRegex()
+        return url.matches(regex)
     }
 
     //이미지 업데이트
