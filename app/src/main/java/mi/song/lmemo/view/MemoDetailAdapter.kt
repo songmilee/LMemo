@@ -17,7 +17,7 @@ import com.bumptech.glide.request.transition.Transition
 import mi.song.lmemo.R
 import mi.song.lmemo.viewmodel.MemoViewModel
 
-class MemoImageAdapter(val context: Context) : RecyclerView.Adapter<MemoImageAdapter.MemoImgVH>() {
+class MemoDetailAdapter(val context: Context) : RecyclerView.Adapter<MemoDetailAdapter.MemoImgVH>() {
     var imgList:ArrayList<String>? = null
     var memoVM:MemoViewModel? = null
 

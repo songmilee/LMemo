@@ -30,7 +30,7 @@ class MemoDetailActivity : AppCompatActivity() {
     private var memoVM:MemoViewModel? = null
     private var id:Long? = null
     private var imgList:ArrayList<String> = ArrayList<String>()
-    private var imgAdapter:MemoImageAdapter? = null
+    private var imgAdapter:MemoDetailAdapter? = null
 
     private var originTitle:String? = null
     private var originContents:String? = null
@@ -61,7 +61,7 @@ class MemoDetailActivity : AppCompatActivity() {
     }
 
     private fun setImageUI(){
-        imgAdapter = MemoImageAdapter(applicationContext)
+        imgAdapter = MemoDetailAdapter(applicationContext)
         imgAdapter?.memoVM = memoVM
 
         addMemoBinding.addMemoImg.adapter = imgAdapter
