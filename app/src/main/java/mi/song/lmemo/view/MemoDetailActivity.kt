@@ -211,8 +211,10 @@ class MemoDetailActivity : AppCompatActivity() {
 
     //이미지 url 체크
     private fun checkUrl(url:String) : Boolean{
-        val regex = "(http|https)://[a-zA-Z/.0-9?%+-_=\\[\\]\\(\\)]+.(jpg|jpeg|gif|png|bmp)".toRegex()
-        return url.matches(regex)
+//        val regex = "(http|https)://[.*]+.(jpg|jpeg|gif|png|bmp)".toRegex()
+//        return url.matches(regex)
+
+        return (url.startsWith("http") || url.startsWith("https"))
     }
 
     //이미지 업데이트

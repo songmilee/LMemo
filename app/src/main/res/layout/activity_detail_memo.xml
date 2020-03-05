@@ -92,6 +92,7 @@
             android:scrollbars="vertical"
             android:inputType="textMultiLine"
             android:hint="@string/add_memo_contents"
+            android:bufferType="spannable"
             android:background="@color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/add_memo_title" />
