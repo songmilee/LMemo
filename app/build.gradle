@@ -28,7 +28,8 @@ android {
 ext {
     recyclerview_version = '1.1.0'
     room_version = '2.2.3'
-    glide_version='4.11.0'
+    glide_version = '4.11.0'
+    photoview_version = '2.3.0'
 }
 
 dependencies {
@@ -52,6 +53,9 @@ dependencies {
     //glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
+
+    //photoview
+    implementation "com.github.chrisbanes:PhotoView:$photoview_version"
 
     implementation 'com.google.android.material:material:1.0.0'
 }

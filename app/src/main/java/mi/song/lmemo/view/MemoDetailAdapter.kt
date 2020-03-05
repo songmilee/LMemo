@@ -71,8 +71,17 @@ class MemoDetailAdapter(val context: Context) : RecyclerView.Adapter<MemoDetailA
                     }
                 })
 
+            img.setOnClickListener(showFullImg(url))
             //x 버튼을 누르면 이미지 지움
             clear.setOnClickListener(clearClickEvent(position))
+        }
+
+        private fun showFullImg(url:String) = View.OnClickListener {
+            Intent(it.context, FullImgActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                putExtra("url", url)
+                it.context.startActivity(this)
+            }
         }
 
         private fun clearClickEvent(position: Int) = View.OnClickListener {
