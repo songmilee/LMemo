@@ -4,9 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.GridLayout.VERTICAL
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import mi.song.lmemo.R
 import mi.song.lmemo.data.Memo
 import mi.song.lmemo.databinding.ActivityMainBinding
@@ -34,9 +35,7 @@ class MainActivity : AppCompatActivity() {
         mainBinding.memoList.adapter = adapter
 
         //reverse layout
-        val layoutManger = LinearLayoutManager(this)
-        layoutManger.reverseLayout = true
-        layoutManger.stackFromEnd = true
+        val layoutManger = StaggeredGridLayoutManager(2, VERTICAL)
         mainBinding.memoList.layoutManager = layoutManger //LinearLayoutManager(this)
 
         //set viewModel
