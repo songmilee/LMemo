@@ -14,12 +14,28 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            storeFile file("keystore.jks")
+            storePassword "lsm9548"
+            keyAlias "lsm"
+            keyPassword "lsm9548"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable false
+            signingConfig signingConfigs.release
+        }
+        debug {
+            applicationIdSuffix = '.dev'
         }
     }
+
     dataBinding {
         enabled = true
     }
@@ -30,6 +46,7 @@ ext {
     room_version = '2.2.3'
     glide_version = '4.11.0'
     photoview_version = '2.3.0'
+    koin_version = '2.0.0'
 }
 
 dependencies {
@@ -56,6 +73,9 @@ dependencies {
 
     //photoview
     implementation "com.github.chrisbanes:PhotoView:$photoview_version"
+
+    //koin
+    implementation "org.koin:koin-android:$koin_version"
 
     implementation 'com.google.android.material:material:1.0.0'
 }
