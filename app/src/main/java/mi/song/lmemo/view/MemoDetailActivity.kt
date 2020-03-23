@@ -21,13 +21,15 @@ import mi.song.lmemo.databinding.ActivityDetailMemoBinding
 import mi.song.lmemo.util.FileUtils
 import mi.song.lmemo.util.GlobalVariable
 import mi.song.lmemo.viewmodel.MemoViewModel
+import org.koin.android.ext.android.get
+import org.koin.android.ext.android.inject
 import java.io.*
 import java.lang.Exception
 import kotlin.collections.ArrayList
 
 class MemoDetailActivity : AppCompatActivity() {
     private lateinit var addMemoBinding:ActivityDetailMemoBinding
-    private var memoVM:MemoViewModel? = null
+    private val memoVM:MemoViewModel by inject() //의존성 주입
     private var id:Long? = null
     private var imgList:ArrayList<String> = ArrayList<String>()
     private var imgAdapter:MemoDetailAdapter? = null
@@ -49,8 +51,8 @@ class MemoDetailActivity : AppCompatActivity() {
     }
 
     private fun init(){
-        memoVM = MemoViewModel(application)
-        memoVM?.imgListDeleteEvent?.observe(this, Observer { result ->
+        val memoVM:MemoViewModel = get()
+        memoVM.imgListDeleteEvent.observe(this, Observer { result ->
             imgList = result
             updateImageList()
         })
