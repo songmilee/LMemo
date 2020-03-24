@@ -13,11 +13,13 @@ import mi.song.lmemo.data.Memo
 import mi.song.lmemo.databinding.ActivityMainBinding
 import mi.song.lmemo.util.PermissionUtils
 import mi.song.lmemo.viewmodel.MemoViewModel
+import org.koin.android.ext.android.get
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mainBinding:ActivityMainBinding
     private var adapter:MemoAdapter? = null
-    private var memoVM:MemoViewModel? = null
+    private val memoVM:MemoViewModel by inject()
     private var memoList:ArrayList<Memo> = ArrayList<Memo>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         mainBinding.memoList.layoutManager = layoutManger //LinearLayoutManager(this)
 
         //set viewModel
-        memoVM = MemoViewModel(application)
+        val memoVM : MemoViewModel = get()
         memoVM?.memoList?.observe(this, Observer {memo ->
             showMemoList(memo.size)
             adapter?.setMemoList(memo!!)
