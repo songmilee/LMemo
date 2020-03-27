@@ -3,7 +3,6 @@ package mi.song.lmemo.view
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,11 +12,9 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import mi.song.lmemo.BuildConfig
 import mi.song.lmemo.R
 import mi.song.lmemo.databinding.ActivityDetailMemoBinding
 import mi.song.lmemo.util.FileUtils
@@ -25,8 +22,7 @@ import mi.song.lmemo.util.GlobalVariable
 import mi.song.lmemo.viewmodel.MemoViewModel
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
-import java.io.*
-import java.lang.Exception
+import java.io.IOException
 import kotlin.collections.ArrayList
 
 class MemoDetailActivity : AppCompatActivity() {
@@ -40,7 +36,7 @@ class MemoDetailActivity : AppCompatActivity() {
     private var originContents:String? = null
     private var isImgUpdate:Boolean = false
 
-    private lateinit var cameraFileUri:Uri
+    private var cameraFileUri:Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -188,17 +184,15 @@ class MemoDetailActivity : AppCompatActivity() {
     private fun getImageByCamera(){
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also {takePicture ->
             takePicture.resolveActivity(packageManager)?.also {
-                val photoFile:File? = try{
-                    FileUtils(this).createImageFile()
-                } catch (ex:IOException){
-                    ex.printStackTrace()
+                cameraFileUri = try {
+                    FileUtils(this).getCameraTempValueUri()
+                } catch(e:IOException){
+                    e.printStackTrace()
                     null
                 }
 
-                photoFile?.also {
-                    val photoURI:Uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, it)
-                    cameraFileUri = photoURI
-                    takePicture.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                cameraFileUri?.also {
+                    takePicture.putExtra(MediaStore.EXTRA_OUTPUT, cameraFileUri)
                     startActivityForResult(takePicture, GlobalVariable.REQ_IMAGE_CAPTURE)
                 }
             }
@@ -259,30 +253,16 @@ class MemoDetailActivity : AppCompatActivity() {
             GlobalVariable.REQ_IMAGE_CAPTURE -> {
                 Log.d("camera cde", "result code : $resultCode")
                 if(resultCode == RESULT_OK){
-                    Log.d("Memo detail activity", "data $data")
-
-                    Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).also { mediaScanIntent ->
-                        mediaScanIntent.data = cameraFileUri
-                        sendBroadcast(mediaScanIntent)
-
-                        imgList.add(cameraFileUri.toString())
+                    Log.d("Memo detail activity", "data ${data?.extras?.get("data")}")
+                    cameraFileUri?.also {uri ->
+                        imgList.add(uri.toString())
                         updateImageList()
+
+                        cameraFileUri = null
                     }
                 }
             }
         }
     }
 
-    @Throws(IOException::class)
-    fun saveCameraFile(bitmap:Bitmap) : Uri{
-        val file = FileUtils(applicationContext).createImageFile()
-        try {
-            val outputStream = FileOutputStream(file)
-            Log.d("save camera", "height ${bitmap.height}, width : ${bitmap.width}")
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-            outputStream.close()
-        } catch (e:Exception) { e.printStackTrace() }
-
-        return FileProvider.getUriForFile(applicationContext, packageName, file)
-    }
 }
