@@ -10,18 +10,23 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
 class FileUtils(val context:Activity){
-    private var storageDir = File(Environment.getExternalStorageDirectory(), Environment.DIRECTORY_PICTURES)//context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    private var storageDir = File(Environment.getExternalStorageDirectory().absolutePath, Environment.DIRECTORY_PICTURES)//context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
 
     @Throws(IOException::class)
     fun createImageFile() :File{
         val time = System.currentTimeMillis()
 
+        if(!storageDir.exists())
+            storageDir.mkdir()
+
+        Log.d("file utils", "storage dirs : " +  storageDir.toString())
         return File.createTempFile(time.toString(), ".jpeg", storageDir)
     }
 
@@ -39,10 +44,6 @@ class FileUtils(val context:Activity){
             return  context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv)
 
         } else {
-            if (!storageDir?.exists()!!) {
-                storageDir?.mkdir()
-            }
-
             val file = createImageFile()
 
             return FileProvider.getUriForFile(context, context.packageName, file)
