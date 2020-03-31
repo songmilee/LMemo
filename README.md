@@ -33,3 +33,10 @@
 <img src="./md_img/memo_detail.png" width="250x"/>
 
 <img src="./md_img/memo_list.png" width="250x"/>
+
+## License
+```
+The MIT License (MIT)
+
+Copyright (c) 2020 songmiLee
+```
